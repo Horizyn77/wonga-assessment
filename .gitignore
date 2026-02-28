@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.idea/
+.nuget/
+node_modules/
+build/
+dist/
