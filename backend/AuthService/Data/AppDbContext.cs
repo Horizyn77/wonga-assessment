@@ -3,9 +3,9 @@ using AuthService.Models;
 
 namespace AuthService.Data
 {
-    public class AuthDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public AuthDbContext(DbContextOptions<AuthDbContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {
         }
