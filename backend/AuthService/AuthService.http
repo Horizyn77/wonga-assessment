@@ -6,7 +6,15 @@ Content-Type: application/json
 {
   "firstName": "John",
   "lastName": "Doe",
-  "email": "jo@test.com",
-  "password": "Passwo"
+  "email": "john1@test.com",
+  "password": "Password1"
 }
 ###
+
+POST {{AuthService_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john1@test.com",
+  "password": "Password1"
+}

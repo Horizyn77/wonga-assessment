@@ -2,6 +2,7 @@
 using AuthService.Models;
 using AuthService.Repositories.Interfaces;
 using AuthService.Services.Interfaces;
+using AuthService.Services.Token;
 
 namespace AuthService.Services
 {
@@ -9,10 +10,12 @@ namespace AuthService.Services
     {
 
         private readonly IUserRepository _repository;
+        private readonly JwtTokenService _tokenService;
 
-        public AuthenticationService(IUserRepository repository)
+        public AuthenticationService(IUserRepository repository, JwtTokenService tokenService)
         {
             _repository = repository;
+            _tokenService = tokenService;
         }
 
         public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
@@ -38,6 +41,28 @@ namespace AuthService.Services
             {
                 Id = user.Id,
                 Email = user.Email,
+            };
+        }
+
+        public async Task<AuthResponse> LoginAsync(LoginRequest request)
+        {
+            var user = await _repository.GetByEmailAsync(request.Email);
+
+            if (user == null)
+                throw new Exception("Invalid email or password");
+
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+
+            if (!isPasswordValid)
+                throw new Exception("Invalid email or password");
+
+            string token = _tokenService.GenerateToken(user);
+
+            return new AuthResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Token = token
             };
         }
     }
