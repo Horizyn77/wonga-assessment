@@ -1,5 +1,4 @@
 ﻿using Shared.DTOs;
-using AuthService.Models;
 
 namespace AuthService.Services.Interfaces
 {
