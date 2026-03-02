@@ -6,13 +6,13 @@ using AuthService.Services.Token;
 
 namespace AuthService.Services
 {
-    public class AuthenticationService : IAuthService
+    public class AuthService : IAuthService
     {
 
         private readonly IUserRepository _repository;
         private readonly JwtTokenService _tokenService;
 
-        public AuthenticationService(IUserRepository repository, JwtTokenService tokenService)
+        public AuthService(IUserRepository repository, JwtTokenService tokenService)
         {
             _repository = repository;
             _tokenService = tokenService;
