@@ -1,0 +1,61 @@
+services:
+
+  authservice:
+    build:
+      context: .
+      dockerfile: backend/AuthService/Dockerfile
+    container_name: wonga-assessment-authservice
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=authdb;Username=postgres;Password=postgres
+      - Jwt__Key=AUTH_SYSTEM_SECRET_KEY_!@#$123456
+    depends_on:
+      - db
+
+  userservice:
+    build:
+      context: .
+      dockerfile: backend/UserService/Dockerfile
+    container_name: wonga-assessment-userservice
+    restart: always
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=authdb;Username=postgres;Password=postgres
+      - Jwt__Key=AUTH_SYSTEM_SECRET_KEY_!@#$123456
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: authdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  frontend:
+    platform: linux/amd64
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: wonga-assessment-frontend
+    environment:
+      - VITE_AUTH_API_URL=http://authservice:5000/api
+      - VITE_USER_API_URL=http://userservice:5001/api
+    ports:
+      - "3000:80"
+    depends_on:
+      - authservice
+      - userservice
+
+volumes:
+  postgres_data:
