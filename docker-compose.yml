@@ -13,7 +13,8 @@ services:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=authdb;Username=postgres;Password=postgres
       - Jwt__Key=AUTH_SYSTEM_SECRET_KEY_!@#$123456
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   userservice:
     build:
@@ -28,7 +29,8 @@ services:
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=authdb;Username=postgres;Password=postgres
       - Jwt__Key=AUTH_SYSTEM_SECRET_KEY_!@#$123456
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:16
@@ -41,6 +43,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 20
+      timeout: 5s
 
   frontend:
     platform: linux/amd64
