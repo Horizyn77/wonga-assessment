@@ -118,6 +118,22 @@ Auth Service API:
 User Service API:
 👉 http://localhost:5001/api
 
+⚠️ Important Notes
+
+📌 Database Migration Startup
+
+Migration may not execute instantly on the very first container startup due to database initialization timing.
+
+You may encounter failed registration with response error such as: relation "Users" does not exist
+
+Please allow the system a few seconds and retry.
+
+You can also do again:
+
+```bash
+docker compose up --build 
+```
+
 ## ⭐ Future Improvements
 
 Refresh token mechanism
