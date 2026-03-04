@@ -44,6 +44,10 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
 
         var result = await _service.LoginAsync(request);
+
+        if (result == null)
+            return Unauthorized("Invalid email or password");
+
         return Ok(result);
     }
 }

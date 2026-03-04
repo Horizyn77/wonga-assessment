@@ -49,12 +49,12 @@ namespace AuthService.Services
             var user = await _repository.GetByEmailAsync(request.Email);
 
             if (user == null)
-                throw new Exception("Invalid email or password");
+                return null;
 
             bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
 
             if (!isPasswordValid)
-                throw new Exception("Invalid email or password");
+                return null;
 
             string token = _tokenService.GenerateToken(user);
 
