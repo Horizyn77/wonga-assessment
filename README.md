@@ -119,17 +119,18 @@ User Service API:
 👉 http://localhost:5001/api
 
 
-⚠️ Important Notes
+
+⚠️ **Important Notes**
 
 📌 Database Migration Startup
 
 Migration may not execute instantly on the very first container startup due to database initialization timing.
 
-You may encounter failed registration with response error such as: relation "Users" does not exist
+You may encounter failed user registration with a response error such as: relation "Users" does not exist
 
 Please allow the system a few seconds and retry.
 
-You can also do again:
+You can also try running the following command again:
 
 ```bash
 docker compose up --build 
