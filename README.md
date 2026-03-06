@@ -116,13 +116,11 @@ Auth Service API:
 👉 http://localhost:5000/api
 
 User Service API:
-👉 http://localhost:5001/api
-
-
+👉 http://localhost:5001/api<br>
 
 ⚠️ **Important Notes**
 
-📌 Database Migration Startup
+📌 **Database Migration Startup**
 
 Migration may not execute instantly on the very first container startup due to database initialization timing.
 
