@@ -1,4 +1,4 @@
-import { createContext,  useState } from "react";
+import { createContext,  useState, useEffect } from "react";
 import authApi from "../api/authApi";
 import userApi from "../api/userApi";
 import { toast } from "react-toastify";
@@ -7,7 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-
+    const [loading, setLoading] = useState(true);
 
     const register = async (data) => {
         try {
@@ -53,6 +53,26 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("token");
         setUser(null);
     };
+
+    useEffect(() => {
+        const initializeAuth = async () => {
+            const token = localStorage.getItem("token");
+
+            if (token) {
+                try {
+                    await getProfile();
+                } catch {
+                    localStorage.removeItem("token");
+                }
+            }
+
+            setLoading(false);
+        };
+
+        initializeAuth();
+    }, []);
+
+    if (loading) return null;
 
     return (
         <AuthContext.Provider value={{ user, login, register, getProfile, logout }}>
