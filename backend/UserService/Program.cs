@@ -22,7 +22,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "http://localhost:3000",
-                "http://frontend"
+                "http://frontend",
+                "https://wonga-assessment-frontend.onrender.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
