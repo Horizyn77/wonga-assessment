@@ -1,0 +1,14 @@
+name: Deploy UserService
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/UserService/**'
+      - 'backend/Shared/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl ${{ secrets.RENDER_DEPLOY_USERSERVICE }}
