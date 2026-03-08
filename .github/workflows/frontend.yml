@@ -1,0 +1,14 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "frontend/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl ${{ secrets.RENDER_DEPLOY_FRONTEND }}
+

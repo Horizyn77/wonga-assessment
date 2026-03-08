@@ -1,0 +1,14 @@
+name: Deploy AuthService
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/AuthService/**'
+      - 'backend/Shared/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl ${{ secrets.RENDER_DEPLOY_AUTHSERVICE }}
